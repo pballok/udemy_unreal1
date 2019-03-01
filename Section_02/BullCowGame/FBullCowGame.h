@@ -2,16 +2,31 @@
 
 #include <string>
 
-class FBullCowGame {
+using FString = std::string;
+using int32 = int;
+
+struct FBullCowCount
+{
+	int32 bulls = 0;
+	int32 cows = 0;
+};
+
+class FBullCowGame
+{
 public:
-	void reset(); //TODO return value
-	int max_tries() const;
-	int current_try() const;
+	FBullCowGame();
+
+	int32 current_try() const;
+	int32 max_tries() const;
+	int32 word_length() const;
+
+	void new_game();
 	bool game_won() const;
-	bool valid_guess(const std::string& guess) const;
+	bool valid_guess(const FString& guess) const;
+	FBullCowCount submit_guess(const FString& guess);
 
 private:
-	int current_try_;
-	int max_tries_;
-
+	int32 current_try_;
+	int32 max_tries_;
+	FString hidden_word_;
 };
