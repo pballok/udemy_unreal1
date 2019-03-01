@@ -36,9 +36,17 @@ bool FBullCowGame::game_won() const
 	return false;
 }
 
-bool FBullCowGame::valid_guess(const FString& guess) const
+EGuessVailidty FBullCowGame::valid_guess(const FString& guess) const
 {
-	return false;
+	if (guess.length() != word_length()) {
+		return EGuessVailidty::wrong_length;
+	}
+	else if (false) {
+		return EGuessVailidty::not_isogram;
+	}
+	else {
+		return EGuessVailidty::ok;
+	}
 }
 
 FBullCowCount FBullCowGame::submit_guess(const FString& guess)

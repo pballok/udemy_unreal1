@@ -1,5 +1,6 @@
 #include "FBullCowGame.h"
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -21,22 +22,34 @@ bool ask_to_play_again()
 	return response.length() > 0 && (response[0] == 'y' || response[0] == 'Y');
 }
 
-FText get_guess(int32 current_try)
+FText get_valid_guess(const FBullCowGame& game)
 {
-	std::cout << "Try " << current_try << ". Enter your guess: ";
-	FText guess;
-	std::getline(std::cin, guess);
+	do {
+		std::cout << "Try " << game.current_try() << ". Enter your guess: ";
 
-	return guess;
+		FText guess;
+		std::getline(std::cin, guess);
+		std::transform(guess.cbegin(), guess.cend(), guess.begin(), ::tolower);
+
+		switch (game.valid_guess(guess)) {
+		case EGuessVailidty::wrong_length:
+			std::cout << "Please enter a " << game.word_length() << " letter word.\n\n";
+			break;
+		case EGuessVailidty::not_isogram:
+			std::cout << "Please enter an isogram.\n\n";
+			break;
+		default:
+			return guess;
+		}
+	} while (true);
 }
 
 void play_game(FBullCowGame& game)
 {
 	for (int32 turn = 1; turn <= game.max_tries(); ++turn) {
-		auto guess = get_guess(game.current_try());  //TODO make loop check for valid guess
-		auto count = game.submit_guess(guess); // TODO submit only valid guess
-
-		std::cout << "Bulls: " << count.bulls << ", Cows: " << count.cows << std::endl;
+		auto guess = get_valid_guess(game);
+		auto count = game.submit_guess(guess);
+		std::cout << "Bulls: " << count.bulls << ", Cows: " << count.cows << "\n\n";
 	}
 
 	//TODO summarize here

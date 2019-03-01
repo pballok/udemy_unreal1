@@ -11,6 +11,13 @@ struct FBullCowCount
 	int32 cows = 0;
 };
 
+enum class EGuessVailidty
+{
+	ok,
+	not_isogram,
+	wrong_length
+};
+
 class FBullCowGame
 {
 public:
@@ -22,7 +29,7 @@ public:
 
 	void new_game();
 	bool game_won() const;
-	bool valid_guess(const FString& guess) const;
+	EGuessVailidty valid_guess(const FString& guess) const;
 	FBullCowCount submit_guess(const FString& guess);
 
 private:
