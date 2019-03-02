@@ -25,15 +25,16 @@ int32 FBullCowGame::word_length() const
 	return hidden_word_.length();
 }
 
+bool FBullCowGame::game_won() const
+{
+	return game_won_;
+}
+
 void FBullCowGame::new_game()
 {
 	current_try_ = 1;
+	game_won_ = false;
 	hidden_word_ = "planet";
-}
-
-bool FBullCowGame::game_won() const
-{
-	return false;
 }
 
 EGuessVailidty FBullCowGame::valid_guess(const FString& guess) const
@@ -68,5 +69,8 @@ FBullCowCount FBullCowGame::submit_guess(const FString& guess)
 			}
 		}
 	}
+
+	game_won_ = (count.bulls == word_length());
+
 	return count;
 }

@@ -44,15 +44,25 @@ FText get_valid_guess(const FBullCowGame& game)
 	} while (true);
 }
 
+void print_game_summary(const FBullCowGame& game)
+{
+	if (game.game_won()) {
+		std::cout << "Well done! YOU WIN!\n";
+	}
+	else {
+		std::cout << "Better luck next time!\n";
+	}
+}
+
 void play_game(FBullCowGame& game)
 {
-	for (int32 turn = 1; turn <= game.max_tries(); ++turn) {
+	while (!game.game_won() && game.current_try() < game.max_tries()) {
 		auto guess = get_valid_guess(game);
 		auto count = game.submit_guess(guess);
 		std::cout << "Bulls: " << count.bulls << ", Cows: " << count.cows << "\n\n";
 	}
 
-	//TODO summarize here
+	print_game_summary(game);
 }
 
 int main(int, char**)

@@ -26,9 +26,9 @@ public:
 	int32 current_try() const;
 	int32 max_tries() const;
 	int32 word_length() const;
+	bool game_won() const;
 
 	void new_game();
-	bool game_won() const;
 	EGuessVailidty valid_guess(const FString& guess) const;
 	FBullCowCount submit_guess(const FString& guess);
 
@@ -36,4 +36,5 @@ private:
 	int32 current_try_;
 	int32 max_tries_;
 	FString hidden_word_;
+	bool game_won_;
 };
