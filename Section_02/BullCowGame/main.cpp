@@ -9,8 +9,14 @@ using int32 = int;
 
 void print_intro(int32 word_length)
 {
-	std::cout << "Welcome to Bulls and Cows, a fun word game.\n";
-	std::cout << "Can you guess the " << word_length << " letter isogram I'm thinking of?\n\n";
+    std::cout << "Welcome to Bulls and Cows, a fun word game.\n\n";
+    std::cout << "          }   {         ___\n";
+    std::cout << "          (o o)        (o o)\n";
+    std::cout << "   /-------\\ /          \\ /-------\\\n";
+    std::cout << "  / | BULL |O            O| COW  | \\\n";
+    std::cout << " *  |-,--- |              |------|  *\n";
+    std::cout << "    ^      ^              ^      ^\n";
+    std::cout << "Can you guess the " << word_length << " letter isogram I'm thinking of?\n\n";
 }
 
 bool ask_to_play_again()
@@ -25,7 +31,7 @@ bool ask_to_play_again()
 FText get_valid_guess(const FBullCowGame& game)
 {
 	do {
-		std::cout << "Try " << game.current_try() << ". Enter your guess: ";
+		std::cout << "Try " << game.current_try() << " of " << game.max_tries() << ". Enter your guess: ";
 
 		FText guess;
 		std::getline(std::cin, guess);
@@ -56,7 +62,7 @@ void print_game_summary(const FBullCowGame& game)
 
 void play_game(FBullCowGame& game)
 {
-	while (!game.game_won() && game.current_try() < game.max_tries()) {
+	while (!game.game_won() && game.current_try() <= game.max_tries()) {
 		auto guess = get_valid_guess(game);
 		auto count = game.submit_guess(guess);
 		std::cout << "Bulls: " << count.bulls << ", Cows: " << count.cows << "\n\n";

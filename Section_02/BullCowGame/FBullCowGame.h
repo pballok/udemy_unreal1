@@ -1,9 +1,13 @@
 #pragma once
 
+#include <map>
 #include <string>
 
 using FString = std::string;
 using int32 = int;
+
+template <typename KeyType, typename ElementType>
+using TMap = std::map<KeyType, ElementType>;
 
 struct FBullCowCount
 {
@@ -34,7 +38,9 @@ public:
 
 private:
 	int32 current_try_;
-	int32 max_tries_;
 	FString hidden_word_;
 	bool game_won_;
+    TMap<int32, int32> word_length_to_max_tries_ = { {3,4}, {4,7}, {5,10}, {6,15}, {7,20} };
+
+    static bool isogram(const FString& word);
 };

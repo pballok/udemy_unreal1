@@ -1,11 +1,11 @@
 #include "FBullCowGame.h"
 
-#include <iostream>
+#include <set>
 
-constexpr int32 default_max_tries = 5;
+template<typename ElementType>
+using TSet = std::set<ElementType>;
 
 FBullCowGame::FBullCowGame()
-	: max_tries_(default_max_tries)
 {
 	new_game();
 }
@@ -17,7 +17,7 @@ int32 FBullCowGame::current_try() const
 
 int32 FBullCowGame::max_tries() const
 {
-	return max_tries_;
+    return word_length_to_max_tries_.at(word_length());
 }
 
 int32 FBullCowGame::word_length() const
@@ -42,7 +42,7 @@ EGuessVailidty FBullCowGame::valid_guess(const FString& guess) const
 	if (guess.length() != word_length()) {
 		return EGuessVailidty::wrong_length;
 	}
-	else if (false) {
+	else if (!isogram(guess)) {
 		return EGuessVailidty::not_isogram;
 	}
 	else {
@@ -73,4 +73,20 @@ FBullCowCount FBullCowGame::submit_guess(const FString& guess)
 	game_won_ = (count.bulls == word_length());
 
 	return count;
+}
+
+bool FBullCowGame::isogram(const FString& word)
+{
+    if (word.length() <= 1)
+        return true;
+
+    TSet<char> letter_seen;
+    for (auto ch : word) {
+        if (letter_seen.find(ch) != letter_seen.cend())
+            return false;
+
+        letter_seen.insert(ch);
+    }
+
+    return true;
 }
